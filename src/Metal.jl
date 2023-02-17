@@ -7,7 +7,10 @@ using GPUCompiler
 using LLVM
 using LLVM.Interop
 using Metal_LLVM_Tools_jll
+using Python_jll
+using ObjectFile
 using ExprTools: splitdef, combinedef
+using Artifacts
 
 # C wrappers
 include("../lib/cmt/cmt.jl")

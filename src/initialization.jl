@@ -5,6 +5,11 @@ function __init__()
         push!(Base.active_repl_backend.ast_transforms, synchronize_metal_tasks)
     end
 
+    # we use Python_jll, but don't actually want its environment to be active
+    # (this breaks the call to pygmentize in GPUCompiler).
+    # XXX: the JLL should only set PYTHONHOME when the executable is called
+    delete!(ENV, "PYTHONHOME")
+
     if Base.JLOptions().debug_level >= 2
         # enable Metal API validation
         ENV["MTL_DEBUG_LAYER"] = "1"
