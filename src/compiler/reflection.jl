@@ -152,6 +152,8 @@ for method in (:code_typed, :code_warntype, :code_llvm, :code_native)
     end
 end
 
+const code_air = code_native
+
 """
     Metal.return_type(f, tt) -> r::Type
 
@@ -164,10 +166,10 @@ function return_type(@nospecialize(func), @nospecialize(tt))
     job = CompilerJob(target, source, params)
     interp = GPUCompiler.get_interpreter(job)
     if VERSION >= v"1.8-"
-        sig = Base.signature_type(job.source.f, job.source.tt)
+        sig = Base.signature_type(func, tt)
         Core.Compiler.return_type(interp, sig)
     else
-        Core.Compiler.return_type(interp, job.source.f, job.source.tt)
+        Core.Compiler.return_type(interp, func, tt)
     end
 end
 
